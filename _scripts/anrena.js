@@ -55,7 +55,7 @@
 		  }
 		  
 		  this.requestFromNRDB = function(callback) {
-        $.getJSON( apiSource, callback)
+        $.getJSON(apiSource, callback)
 		  }
 		}
     
