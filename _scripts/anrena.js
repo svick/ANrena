@@ -64,7 +64,7 @@
 
     this.pickASide = function() {
       $("#Arena").html(
-        "<div id='pickHere'><h2>Pick Your Side!</h2> <h3>Use Default ID: </h3> <a href=\"javascript:Script.sideChosen('corp',true)\">Corp</a> <a href=\"javascript:Script.sideChosen('runner',true)\">Runner</a><h3> Pick an ID: </h3> <a href=\"javascript:Script.sideChosen('corp',false)\">Corp</a> <a href=\"javascript:Script.sideChosen('runner',false)\">Runner</a></div>"        
+        "<div id='pickHere'><h2>Pick Your Side!</h2> <h3>Use Default ID: </h3> <a href=\"javascript:Script.sideChosen('corp',true)\">Corp</a> <a href=\"javascript:Script.sideChosen('runner',true)\">Runner</a><h3> Draft an ID: </h3> <a href=\"javascript:Script.sideChosen('corp',false)\">Corp</a> <a href=\"javascript:Script.sideChosen('runner',false)\">Runner</a></div>"        
       )
     }
     
