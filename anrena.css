@@ -1,118 +1,132 @@
 body {
-	background-color: #C6E2FF;
-	background-image: url("../ANrena/_images/background.jpg");
-	background-repeat: no-repeat;
+    background-color: #C6E2FF;
+    background-image: url("_images/background.jpg");
+    background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center; 
-	font-family: arial;
+    font-family: arial;
 }
 
 a:link {
-	color: #cc00ff;
+    color: #cc00ff;
     text-decoration: none;
 }
 
 a:visited {
-	color: #cc00ff;
+    color: #cc00ff;
     text-decoration: none;
 }
 
 a:hover {
-	color: #cc99ff;
+    color: #cc99ff;
     text-decoration: none;
 }
 
 a:active {
-	color: #cc99ff;
+    color: #cc99ff;
     text-decoration: underline;
 }
 
 .pickImg {
     width:200px;
-	margin-left: 30px;
-	margin-top: 90px;
-	box-shadow: 4px 4px 4px #000000;
-	border-radius: 10px;
-	border-width: 1px;
-	border-color: #000000;
+    margin-left: 30px;
+    margin-top: 90px;
+    box-shadow: 4px 4px 4px #000000;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #000000;
 }
-      
+
 #DeckContainer {
-	padding-left: 10px;
-	padding-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     display:inline-block;
     width:300px;
     vertical-align:top;
     font-size: small;
-	background: rgba(175, 245, 235, 0.8);
+    background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
-	min-height: 480px;
-	max-height: 480px;
-	overflow: auto;	
-	box-shadow: 4px 4px 4px #000000;
-	border-width: 1px;
-	border-color: #000000;
-	
+    min-height: 480px;
+    max-height: 480px;
+    overflow: auto;	
+    box-shadow: 4px 4px 4px #000000;
+    border-width: 1px;
+    border-color: #000000;
+
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
+    width: 0px;
+    height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #9fffcf;
-  border-radius: 10px;
+    background: #9fffcf;
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(175, 245, 235, 0);
-  border-radius: 10px;
+    background: rgba(175, 245, 235, 0);
+    border-radius: 10px;
 }
 
 h1 {
-	text-align: center;
+    text-align: center;
 }
 
 #DeckContainer h2 {
-	text-align: center;
+    text-align: center;
 }
-	  
+
 #Arena {
     display:inline-block;
 }  
 
-#pickHere {
-	padding-left: 10px;
-	padding-right: 10px;
+.select-container {
+    margin-left:20px;
+    padding-left: 10px;
+    padding-right: 10px;
     display:inline-block;
-    width:176px;
-	background: rgba(175, 245, 235, 0.8);
+    width:400px;
+    background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
-	min-height: 480px;
-	max-height: 480px;
-	overflow: auto;	
-	box-shadow: 4px 4px 4px #000000;
-	border-width: 1px;
-	border-color: #000000;
+    min-height: 480px;
+    max-height: 480px;
+    overflow: auto;	
+    box-shadow: 4px 4px 4px #000000;
+    border-width: 1px;
+    border-color: #000000;
 }
 
-#pickHere h1, h2, h3{
-	text-align: center;
+.select-container .select-box{
+    margin-right:20px;
+    text-align:center;
+    display:inline-block;
+    width:150px;
+    height:40px;
+    background: rgba(40, 45, 135, 0.8);
+    color:white;
+    text-decoration: none;
+    font-size:1.2em;
+    padding-top:160px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px #000000;
+    border-width: 1px;
+    border-color: #000000;
 }
 
-#pickHere a{
-	margin-left: 30px;
+.select-container a{
+    margin-left: 30px;
 }
 
-#allDone {
-	border-radius: 2px;
-	background: rgba(175, 245, 235, 0.8);
-	padding: 10px;
-	display:inline-block;
-	box-shadow: 4px 4px 4px #000000;
+.alldone {
+    border-radius: 2px;
+    background: rgba(175, 245, 235, 0.8);
+    padding: 10px;
+    display:inline-block;
+    box-shadow: 4px 4px 4px #000000;
 }
