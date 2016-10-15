@@ -138,8 +138,8 @@ a:active {
 
 }
 
-#allDone {
-	border-radius: 2px;
+.allDone {
+	border-radius: 10px;
 	background: rgba(175, 245, 235, 0.8);
 	padding: 10px;
 	margin-left: 10px;

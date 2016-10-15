@@ -230,7 +230,7 @@ var views = {
         myArenaScript.nextPicks();
     },
     draftDone: function () {
-        $("#Arena").html("<div class=\"alldone\" >Your deck is done. Take it to Jinteki and look for games named \"Arena\"</div>");
+        $("#Arena").html("<div class=\"allDone\" >Your deck is done. Take it to Jinteki and look for games named \"Arena\"</div>");
     }
 };
 
