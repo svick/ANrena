@@ -3,8 +3,8 @@ body {
 	background-image: url("../ANrena/_images/background.jpg");
 	background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center; 
-	font-family: arial;
+    background-position: left top;
+	font-family: "Titillium Web", "Helvetica Neue", sans-serif, arial;
 }
 
 a:link {
@@ -18,12 +18,12 @@ a:visited {
 }
 
 a:hover {
-	color: #cc99ff;
+	color: #6600ff;
     text-decoration: none;
 }
 
 a:active {
-	color: #cc99ff;
+	color: #6600ff;
     text-decoration: underline;
 }
 
@@ -37,6 +37,19 @@ a:active {
 	border-color: #000000;
 }
       
+.hexBreak {
+	width: 300px;
+	background-image: url("../ANrena/_images/hexBreak.png");
+	height: 40px;
+}
+#logo {
+	margin-left: 20px;
+}
+
+#container {
+	position: relative;
+}
+
 #DeckContainer {
 	padding-left: 10px;
 	padding-right: 10px;
@@ -50,9 +63,92 @@ a:active {
 	max-height: 480px;
 	overflow: auto;	
 	box-shadow: 4px 4px 4px #000000;
-	border-width: 1px;
-	border-color: #000000;
+	border: 1px solid rgba(39, 56, 76, 0.9);
+}
+
+#DeckContainer h2 {
+	text-align: center;
+}
+
+#DeckHeader{
+	text-align: center;
+	list-style-type: none;
+	padding-top: 4px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: 8%;
+	overflow: hidden;
+}
+
+#DeckHeader li {
+	text-align: center;
+    float: left;
+	color: rgba(39, 56, 76, 0.9);
+}
+
+#DeckHeader li a {
+	padding: 2px 6px 2px 6px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+	border-radius: 4px;
+	background-repeat: no-repeat;
 	
+}
+
+#DeckHeader li a:hover {
+}
+
+#DeckList {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+	  
+#Arena {
+    display:inline-block;
+	position: absolute;
+    top: 90px;
+}  
+
+#pickHere {
+	margin-left: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+    display:inline-block;
+    width:176px;
+	background: rgba(175, 245, 235, 0.8);
+    border-radius: 10px;
+	min-height: 480px;
+	max-height: 480px;
+	overflow: auto;	
+	box-shadow: 4px 4px 4px #000000;
+	border: 1px solid rgba(39, 56, 76, 0.9);
+	width: 300px;
+}
+
+#pickHere h1, h2, h3{
+	text-align: center;
+}
+
+#pickHere a{
+	margin-left: 30px;
+}
+
+#pickHere h3{
+
+}
+
+#allDone {
+	border-radius: 2px;
+	background: rgba(175, 245, 235, 0.8);
+	padding: 10px;
+	margin-left: 10px;
+	display:inline-block;
+	box-shadow: 4px 4px 4px #000000;
+	border: 1px solid rgba(39, 56, 76, 0.9);
+	width: 300px;
+	position: absolute;
+	top: 0px;
 }
 
 ::-webkit-scrollbar {
@@ -74,45 +170,63 @@ a:active {
   border-radius: 10px;
 }
 
-h1 {
-	text-align: center;
-}
-
-#DeckContainer h2 {
-	text-align: center;
-}
-	  
-#Arena {
+.select-container {
+    margin-left:20px;
+    padding-left: 10px;
+    padding-right: 10px;
     display:inline-block;
-}  
-
-#pickHere {
-	padding-left: 10px;
-	padding-right: 10px;
-    display:inline-block;
-    width:176px;
-	background: rgba(175, 245, 235, 0.8);
+    width:400px;
+    background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
-	min-height: 480px;
-	max-height: 480px;
-	overflow: auto;	
-	box-shadow: 4px 4px 4px #000000;
-	border-width: 1px;
-	border-color: #000000;
+    min-height: 480px;
+    max-height: 480px;
+    overflow: auto;	
+    box-shadow: 4px 4px 4px #000000;
+    border: 1px solid rgba(39, 56, 76, 0.9);
 }
 
-#pickHere h1, h2, h3{
-	text-align: center;
+.select-container .select-box{
+    margin-right:20px;
+    text-align:center;
+	line-height: 120px;
+    display:inline-block;
+    width:150px;
+    height:40px;
+    color:black;
+    text-decoration: none;
+    font-size:1.2em;
+    padding-top:160px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px #000000;
+    border-width: 1px;
+    border-color: #000000;
 }
 
-#pickHere a{
-	margin-left: 30px;
+.select-container a{
+    margin-left: 30px;
 }
 
-#allDone {
-	border-radius: 2px;
-	background: rgba(175, 245, 235, 0.8);
-	padding: 10px;
-	display:inline-block;
-	box-shadow: 4px 4px 4px #000000;
+#defaultIDpick {
+	background-image: url("../ANrena/_images/useDefault.jpg");
+	background-image: top left;
+	background-size: cover;
 }
+
+#draftIDpick {
+	background-image: url("../ANrena/_images/draftIDv2.jpg");
+	background-image: top left;
+	background-size: cover;
+}
+
+#defaultCorp {
+	background-image: url("../ANrena/_images/draftCorp.png");
+	background-image: top left;
+	background-size: cover;
+}
+
+#defaultRunner {
+	background-image: url("../ANrena/_images/draftRunner.png");
+	background-image: top left;
+	background-size: cover;
+}
+
