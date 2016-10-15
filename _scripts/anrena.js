@@ -162,8 +162,9 @@ function CardCollection(data, setFilter) {
 var views = {
     selectType: function () {
         var html = '<div class="select-container type"><h2>Select Format:</h2>';
-        html += '<a class="select-box type draft-id" id="defaultIDpick" href="javascript:views.selectSide(\'draftid\')">Use Default IDs</a>';
-        html += '<a class="select-box type select-id" id = "draftIDpick" href="javascript:views.selectSide(\'selectid\')">Draft An ID</a>';
+        html += '<a class="select-box type draft-id" id="defaultIDpick" href="javascript:views.selectSide(\'draftid\')">Default ID</a>';
+        html += '<a class="select-box type select-id" id = "draftIDpick" href="javascript:views.selectSide(\'selectid\')">Constructed ID</a>';
+		html += '<a class="select-box type select-id" id = "draftDraftIDpick" href="">Draft ID</a>';
         html += '</div>';
         $("#Arena").html(html);
 
@@ -171,9 +172,8 @@ var views = {
     selectSide: function (formatCode) {
         var html = '<div class="select-container sides"><h2>Pick a side:</h2>';
 
+        html += '<a class="select-box type runner' + formatCode + '"id="defaultRunner" href="javascript:views.startDraft(\'runner\',\'' + formatCode + '\')">Runner</a>';		
         html += '<a class="select-box type corp' + formatCode + '"id="defaultCorp" href="javascript:views.startDraft(\'corp\',\'' + formatCode + '\')">Corporation</a>';
-        html += '<a class="select-box type runner' + formatCode + '"id="defaultRunner" href="javascript:views.startDraft(\'runner\',\'' + formatCode + '\')">Runner</a>';
-
 
         html += '</div>';
         $("#Arena").html(html);
