@@ -232,34 +232,34 @@ a:active {
 }
 
 .select-box.type.draft-id {
-	background-image: url("../ANrena/_images/useDefault.jpg");
+	background-image: url("_images/useDefault.jpg");
 	background-image: top left;
 	background-size: cover;
 }
 
 .select-box.type.select-id {
-	background-image: url("../ANrena/_images/draftIDv2.jpg");
+	background-image: url("_images/draftIDv2.jpg");
 	background-image: top left;
 	background-size: cover;
 }
 
 .select-box.type.corp.draftid {
-	background-image: url("../ANrena/_images/draftCorp.png");
+	background-image: url("_images/draftCorp.png");
 	background-image: top left;
 	background-size: cover;
 }
 .select-box.type.corp.selectid {
-	background-image: url("../ANrena/_images/randomCorpv1.png");
+	background-image: url("_images/randomCorpv1.jpg");
 	background-image: top left;
 	background-size: cover;
 }
 .select-box.type.runner.draftid {
-	background-image: url("../ANrena/_images/draftRunner.png");
+	background-image: url("_images/draftRunner.png");
 	background-image: top left;
 	background-size: cover;
 }
 .select-box.type.runner.selectid {
-	background-image: url("../ANrena/_images/randomRunnerv1.png");
+	background-image: url("_images/randomRunnerv1.jpg");
 	background-image: top left;
 	background-size: cover;
 }
