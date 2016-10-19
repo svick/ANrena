@@ -265,7 +265,7 @@ var views = {
         } else if (myDeckView.idCode() === '00005') {
             views.publishChoice(myCardCollection.createSet("draft-id", ["corp"], 4, "", ["00005"], "", -1), "draft-id");
         } else {
-            $("#Arena").html("<div class=\"alldone\" >Your deck is done. Take it to Jinteki and look for games named \"Arena\"</div>");
+            $("#Arena").html("<div class=\"allDone\" >Your deck is done. Take it to Jinteki and look for games named \"Arena\"</div>");
         }
     }
 };
