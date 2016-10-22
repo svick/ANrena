@@ -68,6 +68,8 @@ var preferences = {//Global settings
     "draftBlockedCards": ["09053", "06025", "10073", "10083"], //list of card codes to be banned with draft ids (Rebirth, Cerebral Static, Employe Strike and Indian 
     "releasedSets": [] // list of currectly released datapacks automatically populated
 };
+var imageURLTemplate = "";
+
 function CardCollection(data, setFilter) {
     /*
      * Object to manage the available cardlist
@@ -200,9 +202,9 @@ function CardCollection(data, setFilter) {
 
         });
     };
-    this.setProfessorAlliances =function(){
-         $.each(cardSets.runner, function (key, value) {
-            if (filterFunctions.checkFilter(value,"program") && (value.faction_code !=="shaper" || value.faction_code !=="neutral") ) {
+    this.setProfessorAlliances = function () {
+        $.each(cardSets.runner, function (key, value) {
+            if (filterFunctions.checkFilter(value, "program") && (value.faction_code !== "shaper" || value.faction_code !== "neutral")) {
                 myDeckList.setAlliance(value.code);
             }
 
@@ -278,7 +280,21 @@ var views = {
         } else {
             $("#Arena").html("<div class=\"allDone\" >Your deck is done. Take it to Jinteki and look for games named \"Arena\"</div>");
         }
+    },
+    loadCardPopups: function () {
+        $(".card").mouseenter(function (event) {
+            event.stopPropagation();
+            var position = $(this).offset();
+            $("#cardPopup").css("background-image", "url(" + imageURLTemplate.replace("{code}", $(this).data('cardcode')) + " )");
+            $("#cardPopup").css("top", (position.top -100));
+            $("#cardPopup").css("left", position.left + $(this).width());
+            $("#cardPopup").show();
+        });
+        $(".card").mouseleave(function () {
+            $("#cardPopup").hide();
+        });
     }
+
 };
 function deckList(targetDiv) {
     /*
@@ -297,7 +313,6 @@ function deckList(targetDiv) {
 
     this.setProfessorRules = function () {
         isSpecialId = "Professor";
-
         myCardCollection.setProfessorAlliances();
     };
 
@@ -343,45 +358,49 @@ function deckList(targetDiv) {
          *  usedInfluence is the amount of used influence while this.influence() returns the available influence for the deck.
          */
         $("#DeckList").html("");
-        deckListHeader = "<div id=\"DeckHeader\" >";
+        deckListHeaderHtml = "<div id=\"DeckHeader\" class=\"card\" ";
         if (typeof this.idCard() !== "undefined") {
-            deckListHeader += this.idCard().title + " (" + deckSize + "/" + myArenaScript.deckSize() + ")";
+            deckListHeaderHtml += "data-cardcode=\"" + this.idCard().code + "\" > " + this.idCard().title + " (" + deckSize + "/" + myArenaScript.deckSize() + ")";
         } else {
-            deckListHeader += "Deck";
+            deckListHeaderHtml += ">Deck";
         }
-        deckListHeader += "</div><br/>";
-        $("#DeckList").html(deckListHeader);
+        deckListHeaderHtml += "</div><br/>";
+        $("#DeckList").html(deckListHeaderHtml);
         if (maxInfluence < 0) {
             $("#DeckList").append("<strong> Influence Remaining : <span style=\"color:red;\" >&#8734;</span></strong><br/>");
         } else {
             $("#DeckList").append("<strong> Influence Remaining : <span style=\"color:red;\" >" + this.influence() + "</span>/" + maxInfluence + "</strong><br/>");
         }
-        $.each(MyCards, function (type, cards) {
+        $.each(MyCards, function (typeForPrint, cardsForPrint) {
             /* 
              * loop between card type of cards used in the deck (except identity)
              * current type title in lowercase can be found in the variable type
              */
-            if (type === "identity") {
+            if (typeForPrint === "identity") {
                 return true;
             }
-            $("#DeckList").append("<strong>" + type + "</strong><br/>");
-            $.each(cards, function (code, card) {
+            $("#DeckList").append("<strong>" + typeForPrint + "</strong><br/>");
+            $.each(cardsForPrint, function (codeForPrint, cardForPrint) {
                 /* 
                  * loop between all cards of a given type in the deck
                  * the object card contains all card info like in the nrdb API
                  * as well as the key count that contains the amount of times a card has been picked
                  * and the key usedInfluence that marks how much influence the copies of this card take from the deck.
                  */
-                $("#DeckList").append(card["count"] + " " + card["title"] + " ");
-                if (typeof card["usedInfluence"] !== "undefined") {
-                    for (i = 0; i < card["usedInfluence"]; i++) {
-                        $("#DeckList").append("<span style=\"color:red;\" >&#9679;</span>");
+                deckListCardHtml = "<div class=\"card\" data-cardcode=\"" + cardForPrint.code + "\">";
+
+                deckListCardHtml += cardForPrint["count"] + " " + cardForPrint["title"] + " ";
+                if (typeof cardForPrint["usedInfluence"] !== "undefined") {
+                    for (i = 0; i < cardForPrint["usedInfluence"]; i++) {
+                        deckListCardHtml += "<span style=\"color:red;\" >&#9679;</span>";
                     }
                 }
-                $("#DeckList").append("<br/>");
+                deckListCardHtml += "</div>";
+                $("#DeckList").append(deckListCardHtml);
             });
             $("#DeckList").append("<br/>");
         });
+        views.loadCardPopups();
     };
     this.calculateInfluence = function () {
         if (maxInfluence > 0) {

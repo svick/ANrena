@@ -5,7 +5,7 @@ body {
     background-attachment: fixed;
 
     background-position: left top;
-	font-family: "Titillium Web", "Helvetica Neue", sans-serif, arial;
+    font-family: "Titillium Web", "Helvetica Neue", sans-serif, arial;
 
 }
 
@@ -21,38 +21,38 @@ a:visited {
 
 a:hover {
 
-	color: #6600ff;
+    color: #6600ff;
 
     text-decoration: none;
 }
 
 a:active {
 
-	color: #6600ff;
+    color: #6600ff;
 
     text-decoration: underline;
 }
 
 .pickImg {
-	margin-left: 30px;
-	margin-top: 90px;
-	box-shadow: 4px 4px 4px #000000;
-	border-radius: 10px;
-	border-width: 1px;
-	border-color: #000000;
+    margin-left: 30px;
+    margin-top: 90px;
+    box-shadow: 4px 4px 4px #000000;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #000000;
 }
-      
+
 .hexBreak {
-	width: 300px;
-	background-image: url("_images/hexBreak.png");
-	height: 40px;
+    width: 300px;
+    background-image: url("_images/hexBreak.png");
+    height: 40px;
 }
 #logo {
-	margin-left: 20px;
+    margin-left: 20px;
 }
 
 #container {
-	position: relative;
+    position: relative;
 
 }
 
@@ -65,75 +65,75 @@ a:active {
     font-size: small;
     background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
-	min-height: 480px;
-	max-height: 480px;
-	overflow: auto;	
-	box-shadow: 4px 4px 4px #000000;
-	border: 1px solid rgba(39, 56, 76, 0.9);
+    min-height: 480px;
+    max-height: 480px;
+    overflow: auto;	
+    box-shadow: 4px 4px 4px #000000;
+    border: 1px solid rgba(39, 56, 76, 0.9);
 }
 
 #DeckContainer h2 {
-	text-align: center;
+    text-align: center;
 }
 
 #DeckHeader{
-	text-align: center;
-	list-style-type: none;
-	padding-top: 4px;
-	padding-left: 0px;
-	padding-right: 0px;
-	margin-left: 8%;
-	overflow: hidden;
+    text-align: center;
+    list-style-type: none;
+    padding-top: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 8%;
+    overflow: hidden;
 }
 
 #DeckHeader li {
-	text-align: center;
+    text-align: center;
     float: left;
-	color: rgba(39, 56, 76, 0.9);
+    color: rgba(39, 56, 76, 0.9);
 }
 
 #DeckHeader li a {
-	padding: 2px 6px 2px 6px;
+    padding: 2px 6px 2px 6px;
     display: inline-block;
     text-align: center;
     text-decoration: none;
-	border-radius: 4px;
-	background-repeat: no-repeat;
-	
+    border-radius: 4px;
+    background-repeat: no-repeat;
+
 }
 
 #DeckHeader li a:hover {
 }
 
 #DeckList {
-	padding-left: 4px;
-	padding-right: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
 
 }
 
 #Arena {
     display:inline-block;
-	position: absolute;
+    position: absolute;
     top: 90px;
 }  
 
 
 #pickHere {
-	margin-left: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 
     display:inline-block;
     width:400px;
     background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
 
-	min-height: 480px;
-	max-height: 480px;
-	overflow: auto;	
-	box-shadow: 4px 4px 4px #000000;
-	border: 1px solid rgba(39, 56, 76, 0.9);
-	width: 300px;
+    min-height: 480px;
+    max-height: 480px;
+    overflow: auto;	
+    box-shadow: 4px 4px 4px #000000;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    width: 300px;
 
 }
 
@@ -164,35 +164,35 @@ a:active {
 }
 
 .allDone {
-	border-radius: 10px;
-	background: rgba(175, 245, 235, 0.8);
-	padding: 10px;
-	margin-left: 10px;
-	display:inline-block;
-	box-shadow: 4px 4px 4px #000000;
-	border: 1px solid rgba(39, 56, 76, 0.9);
-	width: 300px;
-	position: absolute;
-	top: 0px;
+    border-radius: 10px;
+    background: rgba(175, 245, 235, 0.8);
+    padding: 10px;
+    margin-left: 10px;
+    display:inline-block;
+    box-shadow: 4px 4px 4px #000000;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    width: 300px;
+    position: absolute;
+    top: 0px;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
+    width: 0px;
+    height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #9fffcf;
-  border-radius: 10px;
+    background: #9fffcf;
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(175, 245, 235, 0);
-  border-radius: 10px;
+    background: rgba(175, 245, 235, 0);
+    border-radius: 10px;
 }
 
 .select-container {
@@ -213,7 +213,7 @@ a:active {
 .select-container .select-box{
     margin-right:20px;
     text-align:center;
-	line-height: 120px;
+    line-height: 120px;
     display:inline-block;
     width:150px;
     height:40px;
@@ -232,36 +232,55 @@ a:active {
 }
 
 .select-box.type.draft-id {
-	background-image: url("_images/useDefault.jpg");
-	background-image: top left;
-	background-size: cover;
+    background-image: url("_images/useDefault.jpg");
+    background-image: top left;
+    background-size: cover;
 }
 
 .select-box.type.select-id {
-	background-image: url("_images/draftIDv2.jpg");
-	background-image: top left;
-	background-size: cover;
+    background-image: url("_images/draftIDv2.jpg");
+    background-image: top left;
+    background-size: cover;
 }
 
 .select-box.type.corp.draftid {
-	background-image: url("_images/draftCorp.png");
-	background-image: top left;
-	background-size: cover;
+    background-image: url("_images/draftCorp.png");
+    background-image: top left;
+    background-size: cover;
 }
 .select-box.type.corp.selectid {
-	background-image: url("_images/randomCorpv1.jpg");
-	background-image: top left;
-	background-size: cover;
+    background-image: url("_images/randomCorpv1.jpg");
+    background-image: top left;
+    background-size: cover;
 }
 .select-box.type.runner.draftid {
-	background-image: url("_images/draftRunner.png");
-	background-image: top left;
-	background-size: cover;
+    background-image: url("_images/draftRunner.png");
+    background-image: top left;
+    background-size: cover;
 }
 .select-box.type.runner.selectid {
-	background-image: url("_images/randomRunnerv1.jpg");
-	background-image: top left;
-	background-size: cover;
+    background-image: url("_images/randomRunnerv1.jpg");
+    background-image: top left;
+    background-size: cover;
+}
+
+
+
+
+#cardPopup{
+    display:none;
+    width: 300px;
+    height: 418px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    z-index: 50;
+    border-radius: 10px;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    
 }
 
 
