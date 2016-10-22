@@ -52,7 +52,7 @@ function DataAccess() {
 
 var myCardCollection = []; // Instance of CardCollection contains all card information and generates draft picks from the available cards.
 var myArenaScript = {}; // Instance of Script contains and handles the draft pick logic
-var myDeckView = {}; // Instance of deckList contains and handles all picked card information
+var myDeckList = {}; // Instance of deckList contains and handles all picked card information
 var dataAccess = new DataAccess();
 var preferences = {//Global settings
     "deckSize": 45, // To be used with drafting ID
@@ -169,7 +169,7 @@ function CardCollection(data, setFilter) {
                     }
                 }
                 if (influence >= 0) {
-                    if (!((value["faction_code"] === faction) || (value["faction_cost"] <= influence))) {
+                    if (!((value["faction_code"] === faction) || (value["faction_cost"] <= influence) || (myDeckList.alliances().includes(value["code"])))) {
                         return true;
                     }
                 }
@@ -196,6 +196,14 @@ function CardCollection(data, setFilter) {
         $.each(cardSets.corp, function (key, value) {
             if (value.faction_code === "jinteki") {
                 myArenaScript.blockCard(value.code);
+            }
+
+        });
+    };
+    this.setProfessorAlliances =function(){
+         $.each(cardSets.runner, function (key, value) {
+            if (filterFunctions.checkFilter(value,"program") && (value.faction_code !=="shaper" || value.faction_code !=="neutral") ) {
+                myDeckList.setAlliance(value.code);
             }
 
         });
@@ -246,12 +254,15 @@ var views = {
                 myArenaScript.setDeckSize(pickedCard.minimum_deck_size);
                 if (pickedCard.code === "03002") {
                     myCardCollection.blockJintekiCards();
+                } else if (pickedCard.code === "03029") {
+                    myDeckList.setProfessorRules();
                 }
+
             }
         } else if (pickedCard.type_code === "agenda") {
             myArenaScript.pickedAgendaPoints(pickedCard.agenda_points);
         }
-        myDeckView.push(pickedCard);
+        myDeckList.push(pickedCard);
         if (pickedCard.type_code === "identity") {
             if ((pickedCard.influence_limit === null && ['00006', '00005'].includes(pickedCard.code)) || (pickedCard.influence_limit !== null)) {
                 myArenaScript.schedulePicks();
@@ -260,9 +271,9 @@ var views = {
         myArenaScript.nextPicks();
     },
     draftDone: function () {
-        if (myDeckView.idCode() === '00006') {
+        if (myDeckList.idCode() === '00006') {
             views.publishChoice(myCardCollection.createSet("draft-id", ["runner"], 3, "", ["00006"], "", -1), "draft-id");
-        } else if (myDeckView.idCode() === '00005') {
+        } else if (myDeckList.idCode() === '00005') {
             views.publishChoice(myCardCollection.createSet("draft-id", ["corp"], 4, "", ["00005"], "", -1), "draft-id");
         } else {
             $("#Arena").html("<div class=\"allDone\" >Your deck is done. Take it to Jinteki and look for games named \"Arena\"</div>");
@@ -274,7 +285,7 @@ function deckList(targetDiv) {
      * Object to manage the created decklist
      * Contains all selected card information
      * After initialised by starting a draft
-     * it's data can be found in the myDeckView instance
+     * it's data can be found in the myDeckList instance
      */
     var MyCards = {};
     var deckSize = 0;
@@ -282,8 +293,22 @@ function deckList(targetDiv) {
     var fact = "";
     var usedInfluence = 0;
     var allianceCodes = [];
+    var isSpecialId = "";
+
+    this.setProfessorRules = function () {
+        isSpecialId = "Professor";
+
+        myCardCollection.setProfessorAlliances();
+    };
+
     this.alliances = function () {
         return allianceCodes;
+    };
+    this.removeAlliance = function (code) {
+        allianceCodes[code] = null;
+    };
+    this.setAlliance = function (code) {
+        allianceCodes[code] = code;
     };
     this.setUsedInfluence = function (value) {
         usedInfluence = value;
@@ -360,14 +385,18 @@ function deckList(targetDiv) {
     };
     this.calculateInfluence = function () {
         if (maxInfluence > 0) {
-            myDeckView.setUsedInfluence(0);
-            $.each(MyCards, function (type, cards) {
-                $.each(cards, function (code, card) {
-                    card.usedInfluence = 0;
-                    if (!(card.faction_code === myDeckView.faction())) {
-                        if (card.faction_cost > 0) {
-                            card.usedInfluence = card.faction_cost * card.count;
-                            myDeckView.addUsedInfluence(card.usedInfluence);
+            myDeckList.setUsedInfluence(0);
+            $.each(MyCards, function (cardTypeForInfluence, cardsForInfluence) {
+                $.each(cardsForInfluence, function (cardCodeForInfluence, cardForInfluence) {
+                    cardForInfluence.usedInfluence = 0;
+                    if (!(cardForInfluence.faction_code === myDeckList.faction())) {
+                        if (cardForInfluence.faction_cost > 0) {
+                            if (isSpecialId === "Professor" && cardForInfluence.type_code === "program") {
+                                cardForInfluence.usedInfluence = cardForInfluence.faction_cost * (cardForInfluence.count - 1);
+                            } else {
+                                cardForInfluence.usedInfluence = cardForInfluence.faction_cost * cardForInfluence.count;
+                            }
+                            myDeckList.addUsedInfluence(cardForInfluence.usedInfluence);
                         }
                     }
                 });
@@ -393,7 +422,10 @@ function deckList(targetDiv) {
         } else {
             MyCards[pushedCard.type_code][pushedCard.code]["count"] += 1;
         }
-
+        if (isSpecialId === "Professor" && pushedCard.type_code === "program") {
+            this.removeAlliance(pushedCard.code);
+        }
+        ;
         if (preferences.limitAll || (preferences.limitOne && (pushedCard.deck_limit === 1))) {
             if (MyCards[pushedCard.type_code][pushedCard.code]["count"] >= pushedCard.deck_limit) {
                 myArenaScript.blockCard(pushedCard.code);
@@ -414,10 +446,11 @@ function deckList(targetDiv) {
             }
         }
 
+
         this.calculateInfluence();
         this.print();
-    }
-    ;
+    };
+
 }
 
 
@@ -429,7 +462,7 @@ function Script(sideCode, formatCode) {
     var killedAgendaPicks = 0;
     var maxAgendaPoints = 0;
     this.start = function () {
-        myDeckView = new deckList();
+        myDeckList = new deckList();
         if (formatCode === "draftid") {
             blockedCodes = preferences.draftBlockedCards;
             if (sideCode === "runner") {
@@ -479,36 +512,36 @@ function Script(sideCode, formatCode) {
         if (type === "agendas") {
             if (killedAgendaPicks > 0) {
                 killedAgendaPicks -= 1;
-                cards = myCardCollection.createSet(sideCode, [], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence());
+                cards = myCardCollection.createSet(sideCode, [], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence());
                 views.publishChoice(cards, sideCode);
             } else {
-                cards = myCardCollection.createSet("agendas", ["agendas"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence(), maxAgendaPoints - agendaPoints);
+                cards = myCardCollection.createSet("agendas", ["agendas"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence(), maxAgendaPoints - agendaPoints);
                 views.publishChoice(cards, "agendas");
             }
         } else {
             switch (type) {
                 case "rng":
-                    cards = myCardCollection.createSet(sideCode, [], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence());
+                    cards = myCardCollection.createSet(sideCode, [], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence());
                     break;
                 case "fracter":
                 case "decoder":
                 case "killer":
-                    cards = myCardCollection.createSet(sideCode, [type, "AI", "program"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence());
+                    cards = myCardCollection.createSet(sideCode, [type, "AI", "program"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence());
                     break;
                 case "breaker":
-                    cards = myCardCollection.createSet(sideCode, ["icebreaker", "program"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence());
+                    cards = myCardCollection.createSet(sideCode, ["icebreaker", "program"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence());
                     break;
                 case "core":
                 case "economy":
                 case "hardware":
                 case "ice":
                 case "unique":
-                    cards = myCardCollection.createSet(sideCode, [type], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence());
+                    cards = myCardCollection.createSet(sideCode, [type], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence());
                     break;
                 case "barrier":
                 case "codegate":
                 case "sentry":
-                    cards = myCardCollection.createSet(sideCode, [type, "ice"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckView.faction(), myDeckView.influence());
+                    cards = myCardCollection.createSet(sideCode, [type, "ice"], preferences.pickOptions, preferences.weightCode, blockedCodes, myDeckList.faction(), myDeckList.influence());
                     break;
                 default:
                     console.log("Error: " + type + " not found");
@@ -541,7 +574,7 @@ function Script(sideCode, formatCode) {
             while (schedule.notFull()) {
                 schedule.pushPick("rng");
             }
-            myCardCollection.setWeights(sideCode, preferences.weightCode, myDeckView.faction());
+            myCardCollection.setWeights(sideCode, preferences.weightCode, myDeckList.faction());
         } else if (sideCode === "corp") {
             schedule.setSize(deckS + 4);
             killedAgendaPicks = 0;
@@ -574,8 +607,8 @@ function Script(sideCode, formatCode) {
             while (schedule.notFull()) {
                 schedule.pushPick("rng");
             }
-            myCardCollection.setWeights("agendas", preferences.weightCode, myDeckView.faction());
-            myCardCollection.setWeights(sideCode, preferences.weightCode, myDeckView.faction());
+            myCardCollection.setWeights("agendas", preferences.weightCode, myDeckList.faction());
+            myCardCollection.setWeights(sideCode, preferences.weightCode, myDeckList.faction());
         }
 
         console.log(schedule.sched());
@@ -622,7 +655,7 @@ function Schedule() {
 
 var filterFunctions = {
     checkAllowed: function (allowedSets, card) {
-        if (allowedSets.lenght === 0) {
+        if (allowedSets.length === 0) {
             return true;
         }
         if (allowedSets.includes(card["pack_code"])) {
