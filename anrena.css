@@ -66,7 +66,7 @@ a:active {
     background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
     min-height: 480px;
-    max-height: 480px;
+    max-height: 80vh;
     overflow: auto;	
     box-shadow: 4px 4px 4px #000000;
     border: 1px solid rgba(39, 56, 76, 0.9);
@@ -271,7 +271,6 @@ a:active {
     display:none;
     width: 300px;
     height: 418px;
-    background-color: black;
     color: #fff;
     text-align: center;
     position: fixed;
@@ -280,7 +279,120 @@ a:active {
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
-    
+
 }
 
+.type-block{
+    margin:5px;
+    display:block;
+   
+    text-align: left;
+    padding: 5px;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    background-color: rgba(180, 180, 180, 0.3);
+}
 
+.type-block .type-title{
+    font-size: 1.3em;
+    font-weight:bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.card {
+    margin-top:5px;
+}
+
+.card.identity{
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight:bold;
+    text-align: center;
+    padding: 2px 10px;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    background-color: rgba(245, 245, 245, 0.4);
+}
+
+.card .card-count{
+    display: inline-block;
+    font-size: 1.2em;
+    width: 1.2em;
+    text-align: center;
+    padding: 2px;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    background-color: rgba(245, 245, 245, 0.4);
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px #000000;
+}
+
+.card .card-title{
+    display: inline-block;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 2px 10px;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    background-color: rgba(245, 245, 245, 0.4);
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px #000000;
+}
+
+.card.identity.neutral-corp,
+.card.identity.neutral-runner,
+.card .card-title.neutral-corp,
+.card .card-title.neutral-runner{
+    background-color: rgba(180, 180, 180, 0.3); 
+}
+.card.identity.anarch,
+.card .card-title.anarch{
+    background-color: rgba(244, 124, 40, 0.3);
+}
+.card.identity.criminal,
+.card .card-title.criminal{
+    background-color: rgba(79, 103, 176, 0.3);
+}
+.card.identity.shaper,
+.card .card-title.shaper{
+    background-color: rgba(106, 181, 69, 0.3);
+}
+.card.identity.jinteki,
+.card .card-title.jinteki{
+    background-color: rgba(198, 32, 38, 0.3);
+}
+.card.identity.nbn,
+.card .card-title.nbn{
+    background-color: rgba(215, 163, 25, 0.3);
+}
+.card.identity.weyland-consortium,
+.card .card-title.weyland-consortium{
+    background-color: rgba(45, 120, 104, 0.3);
+}
+.card.identity.haas-bioroid,
+.card .card-title.haas-bioroid{
+    background-color: rgba(107, 43, 138, 0.3);
+}
+.card.identity.adam,
+.card .card-title.adam{
+    background-color: rgba(45, 120, 104, 0.3);
+}
+.card.identity.apex,
+.card .card-title.apex{
+    background-color: rgba(158, 32, 38, 0.3);
+}
+.card.identity.sunny-lebeau,
+.card .card-title.sunny-lebeau{
+    background-color: rgba(107, 43, 138, 0.3);
+}
+.card .influence-dot{
+    font-size: 1.2em;
+    color:red;
+}
+
+.influence-box{
+    display: inline-block;
+    font-size: 1.2em;
+    font-weight:bold;
+    text-align: center;
+    padding: 2px 10px;
+    border: 1px solid rgba(39, 56, 76, 0.9);
+    background-color: rgba(245, 245, 245, 0.4);
+}

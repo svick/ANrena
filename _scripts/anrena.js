@@ -154,7 +154,7 @@ function CardCollection(data, setFilter) {
         var resultCodes = [];
         for (i = 0; i < 10; i++) {
             if (resultCodes.length >= count) {
-                console.log("full");
+
                 break;
             }
             var weightedArray = [];
@@ -183,7 +183,7 @@ function CardCollection(data, setFilter) {
                 }
 
             });
-            console.log(weightedArray);
+
             resultCodes = filterFunctions.getRandomCards(resultCodes, weightedArray, count - resultCodes.length);
         }
         $.each(resultCodes, function (key, value) {
@@ -286,13 +286,31 @@ var views = {
             event.stopPropagation();
             var position = $(this).offset();
             $("#cardPopup").css("background-image", "url(" + imageURLTemplate.replace("{code}", $(this).data('cardcode')) + " )");
-            $("#cardPopup").css("top", (position.top -100));
+            $("#cardPopup").css("top", (position.top - 100));
             $("#cardPopup").css("left", position.left + $(this).width());
             $("#cardPopup").show();
         });
         $(".card").mouseleave(function () {
             $("#cardPopup").hide();
         });
+    },
+    deckAreaContent: function (displaycode) {
+        switch (displaycode) {
+
+            case "decklist":
+                myDeckList.print();
+                break;
+            case "updates":
+                $("#DeckList").load("_textPages/updates.html");
+                break;
+            case "about":
+                $("#DeckList").load("_textPages/about.html");
+                break;
+            default:
+                $("#DeckList").load("_textPages/home-page.html");
+                break;
+
+        }
     }
 
 };
@@ -358,18 +376,18 @@ function deckList(targetDiv) {
          *  usedInfluence is the amount of used influence while this.influence() returns the available influence for the deck.
          */
         $("#DeckList").html("");
-        deckListHeaderHtml = "<div id=\"DeckHeader\" class=\"card\" ";
+        deckListHeaderHtml = "<div  class=\"card identity ";
         if (typeof this.idCard() !== "undefined") {
-            deckListHeaderHtml += "data-cardcode=\"" + this.idCard().code + "\" > " + this.idCard().title + " (" + deckSize + "/" + myArenaScript.deckSize() + ")";
+            deckListHeaderHtml += this.idCard().faction_code + "\" data-cardcode=\"" + this.idCard().code + "\" > " + this.idCard().title + " (" + deckSize + "/" + myArenaScript.deckSize() + ")";
         } else {
-            deckListHeaderHtml += ">Deck";
+            deckListHeaderHtml += "\" >Deck";
         }
         deckListHeaderHtml += "</div><br/>";
         $("#DeckList").html(deckListHeaderHtml);
         if (maxInfluence < 0) {
-            $("#DeckList").append("<strong> Influence Remaining : <span style=\"color:red;\" >&#8734;</span></strong><br/>");
+            $("#DeckList").append("<div class=\"influence-box\"> Influence Remaining : <span style=\"color:red;\" >&#8734;</span></div><br/>");
         } else {
-            $("#DeckList").append("<strong> Influence Remaining : <span style=\"color:red;\" >" + this.influence() + "</span>/" + maxInfluence + "</strong><br/>");
+            $("#DeckList").append("<div class=\"influence-box\"> Influence Remaining : <span style=\"color:red;\" >" + this.influence() + "</span>/" + maxInfluence + "</div><br/>");
         }
         $.each(MyCards, function (typeForPrint, cardsForPrint) {
             /* 
@@ -379,7 +397,8 @@ function deckList(targetDiv) {
             if (typeForPrint === "identity") {
                 return true;
             }
-            $("#DeckList").append("<strong>" + typeForPrint + "</strong><br/>");
+            deckListTypeHtml = "";
+            typeCardCount = 0;
             $.each(cardsForPrint, function (codeForPrint, cardForPrint) {
                 /* 
                  * loop between all cards of a given type in the deck
@@ -387,18 +406,21 @@ function deckList(targetDiv) {
                  * as well as the key count that contains the amount of times a card has been picked
                  * and the key usedInfluence that marks how much influence the copies of this card take from the deck.
                  */
-                deckListCardHtml = "<div class=\"card\" data-cardcode=\"" + cardForPrint.code + "\">";
+                deckListTypeHtml += "<div class=\"card\" data-cardcode=\"" + cardForPrint.code + "\">";
 
-                deckListCardHtml += cardForPrint["count"] + " " + cardForPrint["title"] + " ";
+                deckListTypeHtml += "<span class=\"card-count\" >" + cardForPrint["count"] + "</span>  <span class=\"card-title " + cardForPrint["faction_code"] + "\" >" + cardForPrint["title"] + "</span> ";
                 if (typeof cardForPrint["usedInfluence"] !== "undefined") {
                     for (i = 0; i < cardForPrint["usedInfluence"]; i++) {
-                        deckListCardHtml += "<span style=\"color:red;\" >&#9679;</span>";
+                        deckListTypeHtml += "<span class=\"influence-dot\" >&#9679;</span>";
                     }
                 }
-                deckListCardHtml += "</div>";
-                $("#DeckList").append(deckListCardHtml);
+                typeCardCount += cardForPrint["count"];
+                deckListTypeHtml += "</div>";
+
             });
-            $("#DeckList").append("<br/>");
+            typeTitle = typeForPrint[0].toUpperCase() + typeForPrint.substring(1);
+            deckListTypeHtml = "<div class=\"type-block " + typeForPrint + " \"> <div class=\"type-title\" >" + typeTitle + " <span class=\"card-count\"> (" + typeCardCount + ")</span> </div>" + deckListTypeHtml + "</div>";
+            $("#DeckList").append(deckListTypeHtml);
         });
         views.loadCardPopups();
     };
@@ -500,7 +522,7 @@ function Script(sideCode, formatCode) {
         }
     };
     this.blockCard = function (code) {
-        console.log("blocked card:" + code);
+
         blockedCodes.push(code);
     };
     this.setDeckSize = function (num) {
@@ -527,7 +549,7 @@ function Script(sideCode, formatCode) {
             return false;
         }
         type = this.nextPickType();
-        console.log("Next Pick Type: " + type);
+
         if (type === "agendas") {
             if (killedAgendaPicks > 0) {
                 killedAgendaPicks -= 1;
@@ -630,7 +652,7 @@ function Script(sideCode, formatCode) {
             myCardCollection.setWeights(sideCode, preferences.weightCode, myDeckList.faction());
         }
 
-        console.log(schedule.sched());
+
     };
     this.nextPickType = function () {
         return schedule.popPick();
@@ -651,7 +673,6 @@ function Schedule() {
         return sched;
     };
     this.picksLeft = function () {
-        console.log(started);
         if (started) {
             return sched.length > 0;
         } else {
@@ -710,17 +731,17 @@ var filterFunctions = {
     getCardPool: function (cardSets, cardPool) {
         switch (cardPool) {
             case "runner":
-                return cardSets.runner.slice();
+                return cardSets.runner;
             case "corp":
-                return cardSets.corp.slice();
+                return cardSets.corp;
             case "runner-id":
-                return cardSets.ids.runner.slice();
+                return cardSets.ids.runner;
             case "corp-id":
-                return cardSets.ids.corp.slice();
+                return cardSets.ids.corp;
             case "agendas":
-                return cardSets.agendas.slice();
+                return cardSets.agendas;
             case "draft-id":
-                return cardSets.ids.draft.slice();
+                return cardSets.ids.draft;
         }
     },
     weight: function (card, weightCode, faction) {
@@ -809,8 +830,10 @@ var filterFunctions = {
 var onPacksDataAvaliable = function (data) {
     preferences.releasedSets = [];
     $.each(data.data, function (key, value) {
-        if (new Date(value.date_release).getTime() <= new Date()) {
-            preferences.releasedSets.push(value.code);
+        if (value.date_release !== null) {
+            if (new Date(value.date_release).getTime() <= new Date()) {
+                preferences.releasedSets.push(value.code);
+            }
         }
     });
     dataAccess.LoadCards(dataAccess, onDataAvaliable);
@@ -822,5 +845,6 @@ var onDataAvaliable = function (data) {
     myArenaScript.start();
 };
 $(document).ready(function () {
+    views.deckAreaContent('home');
     views.selectType();
 });
