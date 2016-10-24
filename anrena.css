@@ -1,12 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Amiko|Titillium+Web');
+
 body {
     background-color: #C6E2FF;
     background-image: url("_images/background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size:  cover;
     background-position: left top;
-    font-family: "Titillium Web", "Helvetica Neue", sans-serif, arial;
-
+	background-size: cover;
+	font-family: 'Amiko', 'Titillium Web', sans-serif, arial;
 }
 
 a:link {
@@ -34,12 +35,17 @@ a:active {
 }
 
 .pickImg {
-    margin-left: 30px;
-    margin-top: 90px;
-    box-shadow: 4px 4px 4px #000000;
-    border-radius: 10px;
-    border-width: 1px;
-    border-color: #000000;
+	margin-left: 30px;
+	margin-top: 70px;
+	box-shadow: 4px 4px 4px #000000;
+	border-radius: 10px;
+	border-width: 1px;
+	border-color: #000000;
+	width: 220px;
+}
+
+.pickImg:hover {
+	box-shadow: 4px 4px 4px #ffffff;
 }
 
 .hexBreak {
@@ -47,6 +53,7 @@ a:active {
     background-image: url("_images/hexBreak.png");
     height: 40px;
 }
+
 #logo {
     margin-left: 20px;
 }
@@ -99,7 +106,6 @@ a:active {
     text-decoration: none;
     border-radius: 4px;
     background-repeat: no-repeat;
-
 }
 
 #DeckHeader li a:hover {
@@ -114,7 +120,7 @@ a:active {
 #Arena {
     display:inline-block;
     position: absolute;
-    top: 90px;
+    top: 96px;
 }  
 
 
@@ -122,23 +128,20 @@ a:active {
     margin-left: 10px;
     padding-left: 10px;
     padding-right: 10px;
-
-    display:inline-block;
+	display:inline-block;
     width:400px;
     background: rgba(175, 245, 235, 0.8);
     border-radius: 10px;
-
     min-height: 480px;
     max-height: 480px;
     overflow: auto;	
     box-shadow: 4px 4px 4px #000000;
     border: 1px solid rgba(39, 56, 76, 0.9);
     width: 300px;
-
 }
 
 .select-container .select-box{
-    margin-right:20px;
+    margin-right:10px;
     text-align:center;
     display:inline-block;
     width:150px;
@@ -196,7 +199,7 @@ a:active {
 }
 
 .select-container {
-    margin-left:20px;
+    margin-left:10px;
     padding-left: 10px;
     padding-right: 10px;
     display:inline-block;
@@ -211,7 +214,8 @@ a:active {
 }
 
 .select-container .select-box{
-    margin-right:20px;
+	margin-top: 16%;
+    margin-right:10px;
     text-align:center;
     line-height: 120px;
     display:inline-block;
@@ -225,6 +229,10 @@ a:active {
     box-shadow: 4px 4px 4px #000000;
     border-width: 1px;
     border-color: #000000;
+}
+
+.select-container .select-box:hover{
+    box-shadow: 4px 4px 4px #ffffff;	
 }
 
 .select-container a{
@@ -244,7 +252,7 @@ a:active {
 }
 
 .select-box.type.corp.draftid {
-    background-image: url("_images/draftCorp.png");
+    background-image: url("_images/specialCorp.jpg");
     background-image: top left;
     background-size: cover;
 }
@@ -254,7 +262,7 @@ a:active {
     background-size: cover;
 }
 .select-box.type.runner.draftid {
-    background-image: url("_images/draftRunner.png");
+    background-image: url("_images/specialRunner.jpg");
     background-image: top left;
     background-size: cover;
 }
@@ -264,38 +272,31 @@ a:active {
     background-size: cover;
 }
 
-
-
-
 #cardPopup{
     display:none;
-    width: 300px;
-    height: 418px;
-    color: #fff;
+    width: 260px;
+	height:418px;
     text-align: center;
-    position: fixed;
+	position: fixed;
     z-index: 50;
-    border-radius: 10px;
+    border-radius: 12px;
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
-
+    transform: translate(-100px, -210px);
 }
 
 .type-block{
     margin:5px;
     display:block;
-
     text-align: left;
     padding: 5px;
-    border: 1px solid rgba(39, 56, 76, 0.9);
-    background-color: rgba(180, 180, 180, 0.3);
 }
 
 .type-block .type-title{
     font-size: 1.3em;
     font-weight:bold;
-    text-align: center;
+    text-align: left;
     margin-bottom: 10px;
 }
 
@@ -309,8 +310,7 @@ a:active {
     font-weight:bold;
     text-align: center;
     padding: 2px 10px;
-    border: 1px solid rgba(39, 56, 76, 0.9);
-    background-color: rgba(245, 245, 245, 0.4);
+
 }
 
 .card .card-count{
@@ -318,69 +318,59 @@ a:active {
     font-size: 1.2em;
     width: 1.2em;
     text-align: center;
-    padding: 2px;
-    border: 1px solid rgba(39, 56, 76, 0.9);
-    background-color: rgba(245, 245, 245, 0.4);
-    border-radius: 20px;
-    box-shadow: 2px 2px 2px #000000;
 }
 
 .card .card-title{
     display: inline-block;
     font-size: 1.2em;
     text-align: center;
-    padding: 2px 10px;
-    border: 1px solid rgba(39, 56, 76, 0.9);
-    background-color: rgba(245, 245, 245, 0.4);
-    border-radius: 20px;
-    box-shadow: 2px 2px 2px #000000;
 }
 
 .card.identity.neutral-corp,
 .card.identity.neutral-runner,
 .card .card-title.neutral-corp,
 .card .card-title.neutral-runner{
-    background-color: rgba(180, 180, 180, 0.3); 
+    color: rgba(110, 110, 110, 1.0); 
 }
 .card.identity.anarch,
 .card .card-title.anarch{
-    background-color: rgba(244, 124, 40, 0.3);
+	color: rgba(244, 124, 40, 1.0);
 }
 .card.identity.criminal,
 .card .card-title.criminal{
-    background-color: rgba(79, 103, 176, 0.3);
+	color: rgba(79, 103, 176, 1.0);
 }
 .card.identity.shaper,
 .card .card-title.shaper{
-    background-color: rgba(106, 181, 69, 0.3);
+	color: rgba(106, 181, 69, 1.0);
 }
 .card.identity.jinteki,
 .card .card-title.jinteki{
-    background-color: rgba(198, 32, 38, 0.3);
+	color: rgba(198, 32, 38, 1.0);
 }
 .card.identity.nbn,
 .card .card-title.nbn{
-    background-color: rgba(215, 163, 25, 0.3);
+	color: rgba(215, 163, 25, 1.0);
 }
 .card.identity.weyland-consortium,
 .card .card-title.weyland-consortium{
-    background-color: rgba(45, 120, 104, 0.3);
+	color: rgba(45, 120, 104, 1.0);
 }
 .card.identity.haas-bioroid,
 .card .card-title.haas-bioroid{
-    background-color: rgba(107, 43, 138, 0.3);
+	color: rgba(107, 43, 138, 1.0);
 }
 .card.identity.adam,
 .card .card-title.adam{
-    background-color: rgba(45, 120, 104, 0.3);
+	color: rgba(45, 120, 104, 1.0);
 }
 .card.identity.apex,
 .card .card-title.apex{
-    background-color: rgba(158, 32, 38, 0.3);
+	color: rgba(158, 32, 38, 1.0);
 }
 .card.identity.sunny-lebeau,
 .card .card-title.sunny-lebeau{
-    background-color: rgba(107, 43, 138, 0.3);
+	color: rgba(107, 43, 138, 1.0);
 }
 .card .influence-dot{
     font-size: 1.2em;
@@ -393,22 +383,19 @@ a:active {
     font-weight:bold;
     text-align: center;
     padding: 2px 10px;
-    border: 1px solid rgba(39, 56, 76, 0.9);
-    background-color: rgba(245, 245, 245, 0.4);
+
 }
 
-
 .footer{
-    padding: 10px;
+	position: fixed;
+	padding: 10px;
+	bottom: 0;
+	left: 0;
     margin-top:20px;
-    display:block;
-    width:300px;
-    vertical-align:top;
+    width:100%;
     font-size: small;
     background: rgba(175, 175, 175, 0.8);
-    border-radius: 10px;
     font-size:0.8em;
     box-shadow: 4px 4px 4px #000000;
     border: 1px solid rgba(39, 56, 76, 0.9);
-
 }
