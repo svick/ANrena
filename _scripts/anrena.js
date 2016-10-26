@@ -98,9 +98,6 @@ function CardCollection(data, setFilter) {
         } else {
             if (filterFunctions.checkAllowed(allowedSets, value)) {
                 switch (value["type_code"]) {
-                    case "agenda":
-                        cardSets.agendas.push(value);
-                        break;
                     case "identity":
                         if (value["side_code"] === "corp") {
                             cardSets.ids.corp.push(value);
@@ -108,6 +105,11 @@ function CardCollection(data, setFilter) {
                             cardSets.ids.runner.push(value);
                         }
                         break;
+                    case "agenda":
+                        if (value["agenda_points"] > 0) {
+                            cardSets.agendas.push(value);
+                            break;
+                        }
                     default:
                         if (value["side_code"] === "corp") {
                             cardSets.corp.push(value);
@@ -286,7 +288,7 @@ var views = {
             event.stopPropagation();
             var position = $(this).offset();
             $("#cardPopup").css("background-image", "url(" + imageURLTemplate.replace("{code}", $(this).data('cardcode')) + " )");
-            $("#cardPopup").css("top", (position.top - 100));
+            $("#cardPopup").css("top", (position.top));
             $("#cardPopup").css("left", position.left + $(this).width());
             $("#cardPopup").show();
         });
