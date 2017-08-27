@@ -1,73 +1,33 @@
 function DataAccess() {
-    var storageExists = false;
     var apiSource = "https://netrunnerdb.com/api/2.0/public/cards";
     var packsApiSource = "https://netrunnerdb.com/api/2.0/public/packs";
-    try {
-        var storage = window["localStorage"];
-        x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        storageExists = true;
-    } catch (e) {
-        storageExists = false;
-    }
-    this.notUpToDate = function (cardDB) {
-        return true;
-    };
     this.LoadCards = function (that, callback) {
-        if (!storageExists) {
-            that.requestFromNRDB(callback);
-            return;
-        } else {
-            var cardDB = storage.getItem("cards");
-            if (that.notUpToDate(cardDB)) {
-                that.requestFromNRDB(callback);
-                return;
-            }
-            callback.apply(Document, cardDB);
-        }
-        ;
-    };
-    this.LoadPacks = function (that, callback) {
-        if (!storageExists) {
-            that.requestPacksFromNRDB(callback);
-            return;
-        } else {
-            var packDB = storage.getItem("packs");
-            if (that.notUpToDate(packDB)) {
-                that.requestPacksFromNRDB(callback);
-                return;
-            }
-            callback.apply(Document, packDB);
-        }
-        ;
-    };
-    this.requestFromNRDB = function (callback) {
         $.getJSON(apiSource, callback);
     };
-    this.requestPacksFromNRDB = function (callback) {
+    this.LoadPacks = function (that, callback) {
         $.getJSON(packsApiSource, callback);
     };
 }
 
-var myCardCollection = []; // Instance of CardCollection contains all card information and generates draft picks from the available cards.
+var myCardCollection = {}; // Instance of CardCollection contains all card information and generates draft picks from the available cards
 var myArenaScript = {}; // Instance of Script contains and handles the draft pick logic
 var myDeckList = {}; // Instance of deckList contains and handles all picked card information
 var dataAccess = new DataAccess();
-var preferences = {//Global settings
-    "deckSize": 45, // To be used with drafting ID
-    "setFilter": "released", // default card filter can be "" for all packs "released" for released packs or an array of pack codes
+var preferences = { //Global settings
+    "deckSize": 30, // to be used with drafting ID
+    "setFilter": "collection", // default card filter can be "" for all packs, "released" for released packs, "collection" for cards only in your collection or an array of pack codes
+    "collection": ["core", "cac", "hap", "atr", "oac", "dad", "kg", "bf", "si", "qu", "dc", "so", "eas", "baw", "cd", "td"], // the list of packs in your collection
     "econPicks": 9, // minimum econ picks
     "corePicks": 4, // minimun core set picks
-    "limitOne": true, // if set to true all 1ofs will be removed from the pool once one of them has been selected.
-    "limitAll": false, // if set to true all card will be removed from the pool once they reach their default deck limit.
-    "softLimit": true, // if set to true cards will become increasingly rare each time they are picked after they reach their default deck limit,
-    "consoleSoftLimit": true, // if set to true after selecting a console all others will become more rare, and it more common
-    "weightCode": "influence-weights-faction-bonus", // currectly selected weighta algorithm to allow for different weight systems.
-    "pickOptions": 4, //number of cards to pick from on selection screen
-    "draftBlockedCards": ["09053", "06025", "10073", "10083"], //list of card codes to be banned with draft ids (Rebirth, Cerebral Static, Employe Strike and Indian 
-    "releasedSets": [] // list of currectly released datapacks automatically populated
+    "limitOne": true, // if set to true, all 1ofs will be removed from the pool once one of them has been selected
+    "limitAll": false, // if set to true, all card will be removed from the pool once they reach their default deck limit
+    "softLimit": true, // if set to true, cards will become increasingly rare each time they are picked after they reach their default deck limit
+    "consoleSoftLimit": true, // if set to true, after selecting a console all others will become more rare, and it more common
+    "weightCode": "influence-weights-faction-bonus", // currently selected weight algorithm to allow for different weight systems
+    "pickOptions": 4, // number of cards to pick from on selection screen
+    "draftBlockedCards": ["06025", "09053", "10073", "10083"] // list of card codes to be banned with draft ids (Cerebral Static, Employee Strike, Indian Union Stock Exchange and Rebirth)
 };
+var releasedSets = []; // list of currently released data packs (automatically populated from NetrunnerDB)
 var imageURLTemplate = "";
 
 function CardCollection(data, setFilter) {
@@ -86,10 +46,13 @@ function CardCollection(data, setFilter) {
     var allowedSets = [];
     if (setFilter instanceof Array) {
         allowedSets = setFilter;
-    } else {
-        if (setFilter === "released") {
-            allowedSets = preferences.releasedSets;
-        }
+    } else if (setFilter === "released") {
+        allowedSets = releasedSets;
+    } else if (setFilter === "collection") {
+        allowedSets = preferences.collection;
+        $.each(data, function (key, value) {
+            value.remaining = value["quantity"] * preferences.collection.filter(pack_code => pack_code === value["pack_code"]).length;
+        });
     }
 
     $.each(data, function (key, value) {
@@ -108,8 +71,10 @@ function CardCollection(data, setFilter) {
                     case "agenda":
                         if (value["agenda_points"] > 0) {
                             cardSets.agendas.push(value);
-                            break;
+                        } else {
+                            cardSets.corp.push(value);
                         }
+                        break;
                     default:
                         if (value["side_code"] === "corp") {
                             cardSets.corp.push(value);
@@ -196,12 +161,18 @@ function CardCollection(data, setFilter) {
     this.getCard = function (cardPoolCode, cardCode) {
         return filterFunctions.getCard(filterFunctions.getCardPool(cardSets, cardPoolCode), cardCode);
     };
+    this.removeCopyFromCollection = function (cardPoolCode, cardCode) {
+        let card = this.getCard(cardPoolCode, cardCode);
+        card.remaining--;
+        if (card.remaining === 0) {
+            myArenaScript.blockCard(cardCode);
+        }
+    };
     this.blockJintekiCards = function () {
-        $.each(cardSets.corp, function (key, value) {
+        $.each(cardSets.corp.concat(cardSets.agendas), function (key, value) {
             if (value.faction_code === "jinteki") {
                 myArenaScript.blockCard(value.code);
             }
-
         });
     };
     this.setProfessorAlliances = function () {
@@ -209,7 +180,6 @@ function CardCollection(data, setFilter) {
             if (filterFunctions.checkFilter(value, "program") && (value.faction_code !== "shaper" || value.faction_code !== "neutral")) {
                 myDeckList.setAlliance(value.code);
             }
-
         });
     };
 }
@@ -235,13 +205,9 @@ var views = {
         $("#Arena").html(html);
     },
     startDraft: function (sideCode, formatCode) {
-        this.loadPreferences();
         myArenaScript = new Script(sideCode, formatCode);
         dataAccess.LoadPacks(dataAccess, onPacksDataAvaliable);
         console.log("document loaded");
-    },
-    loadPreferences: function () {
-
     },
     publishChoice: function (picks, cardPoolCode) {
         currentPicks = picks;
@@ -261,12 +227,14 @@ var views = {
                 } else if (pickedCard.code === "03029") {
                     myDeckList.setProfessorRules();
                 }
-
             }
         } else if (pickedCard.type_code === "agenda") {
             myArenaScript.pickedAgendaPoints(pickedCard.agenda_points);
         }
         myDeckList.push(pickedCard);
+        if (preferences.setFilter === "collection") {
+            myCardCollection.removeCopyFromCollection(cardPoolCode, code);
+        }
         if (pickedCard.type_code === "identity") {
             if ((pickedCard.influence_limit === null && ['00006', '00005'].includes(pickedCard.code)) || (pickedCard.influence_limit !== null)) {
                 myArenaScript.schedulePicks();
@@ -373,7 +341,7 @@ function deckList(targetDiv) {
     this.print = function () {
         /* 
          * Fill the deckList container
-         *  deckSize in the numbe of currently used cards while myArenaScript.deckSize() the final deck size.
+         *  deckSize in the number of currently used cards while myArenaScript.deckSize() the final deck size.
          *  maxInfluence is the influence limit for the ID, for draft Id it is set to -1.
          *  usedInfluence is the amount of used influence while this.influence() returns the available influence for the deck.
          */
@@ -468,7 +436,6 @@ function deckList(targetDiv) {
         if (isSpecialId === "Professor" && pushedCard.type_code === "program") {
             this.removeAlliance(pushedCard.code);
         }
-        ;
         if (preferences.limitAll || (preferences.limitOne && (pushedCard.deck_limit === 1))) {
             if (MyCards[pushedCard.type_code][pushedCard.code]["count"] >= pushedCard.deck_limit) {
                 myArenaScript.blockCard(pushedCard.code);
@@ -524,15 +491,11 @@ function Script(sideCode, formatCode) {
         }
     };
     this.blockCard = function (code) {
-
         blockedCodes.push(code);
     };
     this.setDeckSize = function (num) {
         deckS = num;
         schedule.setSize(this.deckSize());
-    };
-    this.deckSize = function () {
-        return schedule.deckSize();
     };
     this.pickedAgendaPoints = function (value) {
         killedAgendaPicks = value - 1;
@@ -830,11 +793,11 @@ var filterFunctions = {
     }
 };
 var onPacksDataAvaliable = function (data) {
-    preferences.releasedSets = [];
+    releasedSets = [];
     $.each(data.data, function (key, value) {
         if (value.date_release !== null) {
             if (new Date(value.date_release).getTime() <= new Date()) {
-                preferences.releasedSets.push(value.code);
+                releasedSets.push(value.code);
             }
         }
     });
@@ -842,7 +805,7 @@ var onPacksDataAvaliable = function (data) {
 };
 var onDataAvaliable = function (data) {
     var items = [];
-    myCardCollection = new CardCollection(data.data, "released");
+    myCardCollection = new CardCollection(data.data, preferences.setFilter);
     imageURLTemplate = data.imageUrlTemplate;
     myArenaScript.start();
 };
