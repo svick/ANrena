@@ -495,9 +495,9 @@ function Script(sideCode, formatCode) {
         } else {
             blockedCodes = [];
             if (sideCode === "runner") {
-                views.publishChoice(myCardCollection.createSet("runner-id", [], preferences.pickOptions, "", [], "", -1), "runner-id");
+                views.publishChoice(myCardCollection.createSet("runner-id", [], preferences.pickOptions, "", blockedCodes, "", -1), "runner-id");
             } else {
-                views.publishChoice(myCardCollection.createSet("corp-id", [], preferences.pickOptions, "", [], "", -1), "corp-id");
+                views.publishChoice(myCardCollection.createSet("corp-id", [], preferences.pickOptions, "", blockedCodes, "", -1), "corp-id");
             }
 
         }
