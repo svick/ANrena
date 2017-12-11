@@ -225,7 +225,7 @@ var views = {
         currentPicks = picks;
         var selected = [];
         $.each(picks, function (key, value) {
-            selected.push("<a href=\"javascript:views.picked('" + value.code + "','" + cardPoolCode + "')\"><img class='pickImg' src='" + imageURLTemplate.replace("{code}", value.code) + "' alt='" + value.title + "'></a>");
+            selected.push("<a href=\"javascript:views.picked('" + value.code + "','" + cardPoolCode + "')\"><img class='pickImg' src='" + cardImageURL(value) + "' alt='" + value.title + "'></a>");
         });
         $("#Arena").html(selected.join(""));
     },
@@ -267,7 +267,7 @@ var views = {
         $(".card").mouseenter(function (event) {
             event.stopPropagation();
             var position = $(this).offset();
-            $("#cardPopup").css("background-image", "url(" + imageURLTemplate.replace("{code}", $(this).data('cardcode')) + " )");
+            $("#cardPopup").css("background-image", "url(" + $(this).data('card_image_url') + " )");
             $("#cardPopup").css("top", (position.top));
             $("#cardPopup").css("left", position.left + $(this).width());
             $("#cardPopup").show();
@@ -360,7 +360,7 @@ function deckList(targetDiv) {
         $("#DeckList").html("");
         deckListHeaderHtml = "<div  class=\"card identity ";
         if (typeof this.idCard() !== "undefined") {
-            deckListHeaderHtml += this.idCard().faction_code + "\" data-cardcode=\"" + this.idCard().code + "\" > " + this.idCard().title + " (" + deckSize + "/" + myArenaScript.deckSize() + ")";
+            deckListHeaderHtml += this.idCard().faction_code + "\" data-cardcode=\"" + this.idCard().code + "\" data-card_image_url=\"" + cardImageURL(this.idCard()) + "\" > " + this.idCard().title + " (" + deckSize + "/" + myArenaScript.deckSize() + ")";
         } else {
             deckListHeaderHtml += "\" >Deck";
         }
@@ -388,7 +388,7 @@ function deckList(targetDiv) {
                  * as well as the key count that contains the amount of times a card has been picked
                  * and the key usedInfluence that marks how much influence the copies of this card take from the deck.
                  */
-                deckListTypeHtml += "<div class=\"card\" data-cardcode=\"" + cardForPrint.code + "\">";
+                deckListTypeHtml += "<div class=\"card\" data-cardcode=\"" + cardForPrint.code + "\" data-card_image_url=\"" + cardImageURL(cardForPrint) + "\" >";
 
                 deckListTypeHtml += "<span class=\"card-count\" >" + cardForPrint["count"] + "</span>  <span class=\"card-title " + cardForPrint["faction_code"] + "\" >" + cardForPrint["title"] + "</span> ";
                 if (typeof cardForPrint["usedInfluence"] !== "undefined") {
@@ -909,4 +909,12 @@ Actually, you can call either function with either kind of URL, so don't worry
 too much about which one you use.
 
 Cheers!`);
+}
+
+function cardImageURL(card) {
+    if (card.image_url !== undefined) {
+        return card.image_url;
+    } else {
+        return imageURLTemplate.replace("{code}", card.code);
+    }
 }
