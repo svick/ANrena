@@ -247,7 +247,7 @@ var views = {
         currentPicks = picks;
         var selected = [];
         $.each(picks, function (key, value) {
-            selected.push("<a href=\"javascript:views.picked('" + value.code + "','" + cardPoolCode + "')\"><img class='pickImg' src='" + imageURLTemplate.replace("{code}", value.code) + "' alt='" + value.title + "'></a>");
+            selected.push("<a href=\"javascript:views.picked('" + value.code + "','" + cardPoolCode + "')\"><img class='pickImg' src='" + cardImageURL(value) + "' alt='" + value.title + "'></a>");
         });
         $("#Arena").html(selected.join(""));
     },
@@ -287,7 +287,7 @@ var views = {
         $(".card").mouseenter(function (event) {
             event.stopPropagation();
             var position = $(this).offset();
-            $("#cardPopup").css("background-image", "url(" + imageURLTemplate.replace("{code}", $(this).data('cardcode')) + " )");
+            $("#cardPopup").css("background-image", "url(" + cardImageURL(value) + " )");
             $("#cardPopup").css("top", (position.top));
             $("#cardPopup").css("left", position.left + $(this).width());
             $("#cardPopup").show();
@@ -850,3 +850,11 @@ $(document).ready(function () {
     views.deckAreaContent('home');
     views.selectType();
 });
+
+function cardImageURL(card) {
+    if (card.image_url !== undefined) {
+        return card.image_url;
+    } else {
+        return imageURLTemplate.replace("{code}", card.code);
+    }
+}
