@@ -743,7 +743,7 @@ var filterFunctions = {
     checkFilter: function (card, filter, agendaPoints) {
         switch (filter) {
             case "core":
-                if (card["pack_code"] === "core") {
+                if (card["pack_code"] === "core" || card["pack_code"] === "core2") {
                     return true;
                 }
                 return false;
