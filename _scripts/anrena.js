@@ -24,8 +24,8 @@ var preferences = { //Global settings
     "econPicks": 9, // minimum econ picks
     "corePicks": 4, // minimun core set picks
     "limitOne": true, // if set to true, all 1ofs will be removed from the pool once one of them has been selected
-    "limitAll": false, // if set to true, all card will be removed from the pool once they reach their default deck limit
-    "softLimit": true, // if set to true, cards will become increasingly rare each time they are picked after they reach their default deck limit
+    "limitAll": true, // if set to true, all card will be removed from the pool once they reach their default deck limit
+    "softLimit": false, // if set to true, cards will become increasingly rare each time they are picked after they reach their default deck limit
     "consoleSoftLimit": true, // if set to true, after selecting a console all others will become more rare, and it more common
     "weightCode": "influence-weights-faction-bonus", // currently selected weight algorithm to allow for different weight systems
     "pickOptions": 4, // number of cards to pick from on selection screen
