@@ -1,11 +1,15 @@
 function DataAccess() {
     var apiSource = "https://netrunnerdb.com/api/2.0/public/cards";
     var packsApiSource = "https://netrunnerdb.com/api/2.0/public/packs";
+    var prebuiltsApiSource = "https://netrunnerdb.com/api/2.0/public/prebuilts";
     this.LoadCards = function (that, callback) {
         $.getJSON(apiSource, callback);
     };
     this.LoadPacks = function (that, callback) {
         $.getJSON(packsApiSource, callback);
+    };
+    this.LoadPrebuilts = function (that, callback) {
+        $.getJSON(prebuiltsApiSource, callback);
     };
 }
 
@@ -816,11 +820,26 @@ var onPacksDataAvaliable = function (data) {
     dataAccess.LoadCards(dataAccess, onDataAvaliable);
 };
 var onDataAvaliable = function (data) {
-    var items = [];
-    myCardCollection = new CardCollection(data.data, preferences.setFilter);
-    imageURLTemplate = data.imageUrlTemplate;
-    myArenaScript.start();
-    removeCards();
+    var onPrebuiltsDataAvailable = function (prebuiltsData) {
+        var allCards = data.data;
+
+        for (var prebuilt of prebuiltsData.data) {
+          for (var cardCode in prebuilt.cards) {
+            var card = allCards.find(function(c) { return c.code === cardCode; });
+            card = jQuery.extend(true, {}, card); // clone the card object
+            card.pack_code = prebuilt.code;
+            card.quantity = prebuilt.cards[cardCode];
+            allCards.push(card);
+          }
+        }
+
+        myCardCollection = new CardCollection(allCards, preferences.setFilter);
+        imageURLTemplate = data.imageUrlTemplate;
+        myArenaScript.start();
+        removeCards();
+    };
+
+    dataAccess.LoadPrebuilts(dataAccess, onPrebuiltsDataAvailable);
 };
 $(document).ready(function () {
     views.deckAreaContent('home');
