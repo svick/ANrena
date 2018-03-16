@@ -408,7 +408,7 @@ function deckList(targetDiv) {
                  */
                 deckListTypeHtml += "<div class=\"card\" data-cardcode=\"" + cardForPrint.code + "\" data-card_image_url=\"" + cardImageURL(cardForPrint) + "\" >";
 
-                deckListTypeHtml += "<span class=\"card-count\" >" + cardForPrint["count"] + "</span>  <span class=\"card-title " + cardForPrint["faction_code"] + "\" >" + cardForPrint["title"] + "</span> ";
+                deckListTypeHtml += "<span class=\"card-count\" >" + cardForPrint["count"] + "</span>  <span class=\"card-title " + cardForPrint["faction_code"] + "\" >" + cardForPrint["title"] + "</span>  <span class=\"card-pack\" >" + cardForPrint["pack_code"] + "</span> ";
                 if (typeof cardForPrint["usedInfluence"] !== "undefined") {
                     for (i = 0; i < cardForPrint["usedInfluence"]; i++) {
                         deckListTypeHtml += "<span class=\"influence-dot\" >&#9679;</span>";
