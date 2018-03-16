@@ -84,12 +84,12 @@ a:active {
 }
 
 #DeckHeader{
-    text-align: center;
+    display: flex;
+    justify-content: center;    
     list-style-type: none;
     padding-top: 4px;
     padding-left: 0px;
     padding-right: 0px;
-    margin-left: 8%;
     overflow: hidden;
 }
 
