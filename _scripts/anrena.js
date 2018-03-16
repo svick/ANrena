@@ -286,14 +286,28 @@ var views = {
             case "decklist":
                 myDeckList.print();
                 break;
-            case "updates":
-                $("#DeckList").load("_textPages/updates.html");
-                break;
             case "about":
                 $("#DeckList").load("_textPages/about.html");
                 break;
             default:
                 $("#DeckList").load("_textPages/home-page.html");
+                dataAccess.LoadPacks(dataAccess, function (packsData) {
+                    dataAccess.LoadPrebuilts(dataAccess, function (prebuiltsData) {
+                        var names = [];
+                        for (var code of preferences.collection) {
+                            var packs = packsData.data.concat(prebuiltsData.data);
+
+                            var pack = packs.find(p => p.code === code);
+                            if (pack !== undefined) {
+                                names.push(pack.name);
+                            }
+                        }
+
+                        var list = $("<ul>").append(names.map(n => $("<li>").text(n)));
+
+                        $("#AllowedPacks").empty().append("Allowed packs:", list);
+                    });
+                });
                 break;
 
         }
@@ -825,7 +839,7 @@ var onDataAvaliable = function (data) {
 
         for (var prebuilt of prebuiltsData.data) {
           for (var cardCode in prebuilt.cards) {
-            var card = allCards.find(function(c) { return c.code === cardCode; });
+            var card = allCards.find(c => c.code === cardCode);
             card = jQuery.extend(true, {}, card); // clone the card object
             card.pack_code = prebuilt.code;
             card.quantity = prebuilt.cards[cardCode];
