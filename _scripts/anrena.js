@@ -20,7 +20,7 @@ var dataAccess = new DataAccess();
 var preferences = { //Global settings
     "deckSize": 30, // to be used with drafting ID
     "setFilter": "collection", // default card filter can be "" for all packs, "released" for released packs, "collection" for cards only in your collection or an array of pack codes
-    "collection": ["core2", "td", "hap", "oac", "qu", "2016-world-champion-runner-deck" ], // the list of packs in your collection
+    "collection": ["core2", "td", "hap", "oac", "qu", "ss", "dtwn", "cotc", "2016-world-champion-runner-deck" ], // the list of packs in your collection
     "econPicks": 9, // minimum econ picks
     "corePicks": 4, // minimun core set picks
     "limitOne": true, // if set to true, all 1ofs will be removed from the pool once one of them has been selected
